@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<HTML xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="jquery-1.4.2.min.js" type="text/javascript"></script>
+
+<script type="text/javascript"> 
+
+$(window).resize(function(){
+	$(document).scroll();
+});
+	
+$(document).scroll(function(){
+    var inners = $("div.inner");
+
+	var max = 40, min = -30, increment=(max-min)/inners.length;
+	var innerCount = 0;
+	var posts = $(".post");
+	var currentPost = 0;
+
+	//Find center post.
+	for(var i = 0 ; i < posts.length ; i++)
+	{
+		if(parseInt($(posts[i]).position().top) > parseInt($(window).scrollTop())+Math.floor($(window).height() / 2))
+		{
+			currentPost = i -1;
+			break;		
+		} 
+	}	
+	
+	currentPost = currentPost < 0 ? 0 : currentPost;
+	
+	var baseDeg = parseInt($(window).scrollTop())/parseInt($(window).height())
+	var deg = -parseInt($(window).height())/14;
+	var max = 50;
+	var maxHeight = 300;
+ 
+	for(var i= 0 ; i < posts.length ; i++)
+	{
+		height = $(posts[i]).height()/2 > maxHeight ? maxHeight  : $(posts[i]).height()/2;		
+		fromTop = $(posts[i]).position().top+ height - parseInt($(window).scrollTop()) ;
+		fromCenter = fromTop - parseInt($(window).height())/2 
+		fromCenter = fromCenter / parseInt($(window).height());
+		value = deg*fromCenter > max ? max : deg*fromCenter;
+		value = deg*fromCenter < -max ? -max : deg*fromCenter;
+	
+		$(inners[i]).css('-webkit-transform', 'skewY('+value+'deg)');
+		$(inners[i]).css('-moz-transform', 'skewY('+value+'deg)');
+	}
+ 
+});
+var scrollStop,
+    threshold = 1;
+	$(window).bind('scroll', function() {
+		clearTimeout(scrollStop);
+		scrollStop = setTimeout(function() {
+			
+			$(".footer").css("height", ($(".footer").height()*1.1)+"px");
+			$(".footer").css("height", ($(".footer").height()/1.1)+"px");
+			$(".first").css("height", ($(".first").height()*1.1)+"px");
+			$(".first").css("height", ($(".first").height()/1.1)+"px");
+		}, threshold);
+});
+	
+
+$(document).ready(function(){
+	$(document).scroll();
+	/*
+	$(".post").hover(function(){
+		$(this).css("height", ($(this).height()+5)+"px");
+		$(document).scroll();
+		},
+		function(){
+		$(this).css("height", ($(this).height()-5)+"px");
+		$(document).scroll();
+		}
+	);*/
+	
+});
+	  
+</script>
+
+<style type="text/css"> 
+ 
+@-webkit-keyframes lightning {
+  0% {
+    -webkit-transform: scale(1.0);
+    opacity: 0.75;
+  }
+  1.2% {
+    -webkit-transform: scale(1.2);
+    opacity: 1.0;
+  }
+  2.4% { 
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+  2.8% {
+    -webkit-transform: scale(1.2);
+    opacity: 1.0;
+  }
+  3% { 
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+  100% {  -webkit-transform: scale(1.0);
+    opacity: 0;}
+}
+ 
+/* STRUCTURE */
+html { background: #0a0a0c ; }
+html, body, * { padding: 0; margin: 0; border: 0; }
+ 
+div.lightning { position: absolute; background: rgba(255,255,255,0.5); margin: -475px 0 0; width: 100%; height: 1250px; z-index: -4; opacity: 0	;}
+div.lightning { 
+  -webkit-animation-name: lightning; 
+  -webkit-animation-duration: 10s;
+  -webkit-animation-iteration-count: infinite;  
+  -webkit-animation-delay: 3s;
+}
+ 
+div.logo { background: url(logo.png) top center no-repeat; height: 295px; width: 100%; min-width: 980px; position: absolute; margin: -268px auto; left: -80px; z-index: -3;  }
+div.header { background: url(header.jpg) top center no-repeat #191b20; width: 100%; min-width: 960px; height: 1400px; padding: 0; position: absolute; z-index: -6; margin: -325px 0 0;}
+div.skyline { background:url(sky.png) repeat-x bottom; z-index: -3; height: 1200px; width: 100%; position: absolute; top: 300px;}
+div.contain { padding: 0 0 0 70px;; margin: 325px auto 10px; border: 0; width: 910px; overflow: hidden; }
+
+ 
+div.post, div.inner { min-height: 50px; width:710px; padding: 10px; margin: 0;}
+div.post { position: relative; }
+div.inner { width: 200px; left:730px; top: 0; margin-top: -1px; -webkit-transform-origin: 0 0; -webkit-transform: skewY(30deg); -moz-transform-origin: 0 0; -moz-transform: skewY(30deg); position: absolute; display: block; height: 100%; z-index:-1; background:url(window.png); }
+ 
+div.date { font-weight: bold; text-align: center; font-family: arial; font-size: 11px; color: #eee; position: absolute; width: 70px; margin: -5px 0 0 -80px;}
+.time { font-weight: normal; }
+
+div.groundhack { height: 100px; background: #0f0f10; } 
+div.groundhack .inner { background: #0f0f10; margin-top: 0;}
+div.ground { width: 100%; background: #0f0f10; z-index: -2; height:240px; position: absolute;  margin-top: -240px; }
+
+ 
+/* COLORS */
+ 
+div.grey { background: #eeeeee; border-top: 1px solid #fff; border-bottom: 1px solid #b0b0b0;  }
+div.grey .inner { background: #acacac; border-top: 1px solid #b8b8b8; border-bottom: 1px solid #7f7f7f; }
+div.grey .date { color: #eeeeee }
+
+div.blue { background: #33ccff; border-top: 1px solid #a2e8ff; border-bottom: 1px solid #2697bd; }
+div.blue .inner { background: #2593b8; border-top: 1px solid #75a7b8; border-bottom: 1px solid #1b6d88; }
+div.blue .date { color: #33ccff }
+
+div.red { background: #f54545; border-top: 1px solid #f9b4b4; border-bottom: 1px solid #b63333; } 
+div.red .inner { background: #b13232; border-top: 1px solid #b48282; border-bottom: 1px solid #832525; }
+div.red .date { color: #f54545 }
+
+div.yellow { background: #ffd633; border-top: 1px solid #fff5cb; border-bottom: 1px solid #bd9f26; } 
+div.yellow .inner { background: #b89a25; border-top: 1px solid #b8b192; border-bottom: 1px solid #88731b; }
+div.yellow .date { color: #ffd633 }
+ 
+div.pink { background: #ff5894; border-top: 1px solid #ffb3cf; border-bottom: 1px solid #bd416e; } 
+div.pink .inner { background: #b83f6b; border-top: 1px solid #b88195; border-bottom: 1px solid #882f4f; }
+div.pink .date { color: #ff5894 }
+
+div.green { background: #a3ff58; border-top: 1px solid #ecffdc; border-bottom: 1px solid #79bd41; } 
+div.green .inner { background: #76b83f; border-top: 1px solid #aab89f; border-bottom: 1px solid #57882f; }
+div.green .date { color: #a3ff58 }
+
+div.purple { background: #da58ff; border-top: 1px solid #e5b3ff; border-bottom: 1px solid #a141bd; } 
+div.purple .inner { background: #9c3fb6; border-top: 1px solid #a380b6; border-bottom: 1px solid #732e87; }
+div.purple .date { color: #da58ff }
+ 
+div.footer { height: 80px; background: url(footer.jpg); border-top: 1px solid #646c83; border-bottom: 1px solid #6d7f8c; } 
+div.footer .inner { background: #535e78;}
+
+a.categorylink { width: 30px; height: 30px; display: block; margin: 0 auto; background: url(icons.png);}
+
+a.tweets { background-position: -30px 0; }
+a.tweets:hover { background-position: 0 0; }
+
+a.dribbbles { background-position: -30px -30px; }
+a.dribbbles:hover { background-position: 0 -30px; }
+
+a.photos { background-position: -30px -60px; }
+a.photos:hover { background-position: 0 -60px; }
+
+a.checkins { background-position: -30px -90px; }
+a.checkins:hover { background-position: 0 -90px; }
+
+a.urls { background-position: -30px -120px; }
+a.urls:hover { background-position: 0 -120px; }
+
+a.posts { background-position: -30px -150px; }
+a.posts:hover { background-position: 0 -150px; }
+
+a.music { background-position: -30px -180px; }
+a.music:hover { background-position: 0 -180px; }
+
+</style>
+
+<TITLE>Building Blog</TITLE>
+</head><body>
+<div class="logo"></div>
+<div class="header"></div>
+
+<div class="skyline"></div><div class="lightning"></div>
+	
+<div class="contain">
+
+<div class="blue post first">
+<div class="date">Jun. 14th<br/><span class="time">9:04am</span><br/><a href="#" class="categorylink tweets" title="All tweets"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />
+<div class="inner"></div>
+</div>
+
+<div class="grey post">
+<div class="date">Jun. 13th<br/><span class="time">10:22pm</span><br/><a href="#" class="categorylink posts" title="All blog posts"></a></div>
+Lorem ipsum<br />
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />
+Dolor sit amet<br />	
+<div class="inner"></div>
+</div>
+
+<div class="pink post">
+<div class="date">Jun. 13th<br/><span class="time">9:44pm</span><br/><a href="#" class="categorylink dribbbles" title="All dribbbles"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />
+Dolor sit amet<br />	
+<div class="inner"></div>
+</div>
+
+<div class="purple post">
+<div class="date">Jun. 10th<br/><span class="time">11:20am</span><br/><a href="#" class="categorylink photos" title="All photos"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />
+Dolor sit amet<br />	
+<div class="inner"></div>
+</div>
+
+<div class="yellow post">
+<div class="date">Jun. 4th<br/><span class="time">9:00am</span><a href="#" class="categorylink music" title="All URLs"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />
+Dolor sit amet<br />
+<div class="inner"></div>
+</div>
+
+<div class="green post">
+<div class="date">May 15th<br/><span class="time">7:20am</span><a href="#" class="categorylink urls" title="All URLs"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />
+Dolor sit amet<br />
+<div class="inner"></div>
+</div>
+
+<div class="blue post">
+<div class="date">May 28th<br/><span class="time">10:43pm</span><a href="#" class="categorylink tweets" title="All tweets"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />	
+<div class="inner"></div>
+</div>
+
+<div class="red post">
+<div class="date">May 23rd<br/><span class="time">10:05am</span><a href="#" class="categorylink checkins" title="All checkins"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />	
+<div class="inner"></div>
+</div>
+
+<div class="pink post">
+<div class="date">May 22nd<br/><span class="time">5:12pm</span><br/><a href="#" class="categorylink dribbbles" title="All dribbbles"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />
+Dolor sit amet<br />	Lorem ipsum<br />
+Dolor sit amet<br />	
+<div class="inner"></div>
+</div>
+
+<div class="yellow post">
+<div class="date">May 15th<br/><span class="time">7:20am</span><a href="#" class="categorylink music" title="All URLs"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />
+Dolor sit amet<br />
+<div class="inner"></div>
+</div>
+
+<div class="blue post">
+<div class="date">May 9th<br/><span class="time">10:50am</span><a href="#" class="categorylink tweets" title="All tweets"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />	
+<div class="inner"></div>
+</div>
+
+<div class="green post">
+<div class="date">May 15th<br/><span class="time">7:20am</span><a href="#" class="categorylink urls" title="All URLs"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />
+Dolor sit amet<br />
+<div class="inner"></div>
+</div>
+
+<div class="red post">
+<div class="date">May 3rd<br/><span class="time">5:15am</span><a href="#" class="categorylink checkins" title="All checkins"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />	
+<div class="inner"></div>
+</div>
+
+<div class="grey post">
+<div class="date">May 1st<br/><span class="time">4:20pm</span><br/><a href="#" class="categorylink posts" title="All blog posts"></a></div>
+Lorem ipsum<br />
+Dolor sit amet<br />
+Lorem ipsum<br />
+Dolor sit amet<br />	Lorem ipsum<br />
+Dolor sit amet<br />	
+<div class="inner"></div>
+</div>
+
+<div class="footer post">
+<div class="inner"></div>
+</div>
+
+<div class="groundhack post">
+<div class="inner"></div>
+</div>
+</div>
+
+<div class="ground"></div>
+</body></html>
